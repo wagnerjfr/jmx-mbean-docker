@@ -22,10 +22,15 @@ Thread Count = 10 :: System Name = System
 
 ## Application ClientMBean
 The client application can be used to change server attributes (**threadCount** and **systemName**) remotely from the host.
+
 Arguments:
+
 -p:[JMX port number]
+
 -t:[number of threads]
+
 -n:[system's name]
+
 stop
 
 Example 1: *java com.example.client.ClientMBean -p:10001 -t:15 -n:test1*
@@ -76,7 +81,7 @@ docker run --rm --name server1 -p 10001:10000 jmx-sample-server
 docker run --rm --name server2 -p 10002:10000 jmx-sample-server
 ```
 
-**Terminal 2**
+**Terminal 3**
 
 ```
 docker run --rm --name server3 -p 10003:10000 jmx-sample-server
