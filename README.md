@@ -4,7 +4,7 @@ This project shows an example of using  **Java Management Extensions (JMX) frame
 ## Application ServerJMX
 The Java application running in the container prints the values of its attributes **threadCount** and **systemName** in a loop of 3s interval.
 
-###Sample output
+### Sample output
 ```
 Thread Count = 10 :: System Name = System
 Thread Count = 10 :: System Name = System
