@@ -33,9 +33,8 @@ Arguments:
 
 stop
 
-**Example 1:** `java com.example.client.ClientMBean -p:10001 -t:15 -n:test1`
-
 ### Sample Output
+**Example 1:** `java com.example.client.ClientMBean -p:10001 -t:15 -n:test1`
 ```console
 Thread Count = 10 :: System Name = System
 Thread Count = 10 :: System Name = System
@@ -46,7 +45,6 @@ Thread Count = 15 :: System Name = test1
 ```
 
 **Example 2:** `java com.example.client.ClientMBean -p:10001 stop`
-
 ```console
 Thread Count = 15 :: System Name = test1
 Thread Count = 15 :: System Name = test1
