@@ -25,13 +25,13 @@ The client application can be used to change server attributes (**threadCount** 
 
 Arguments:
 
--p:[JMX port number]
+`-p:<JMX port number>`
 
--t:[number of threads]
+`-t:<number of threads>`
 
--n:[system's name]
+`-n:<system's name>`
 
-stop
+`stop`
 
 ### Sample Output
 **Example 1:** `java com.example.client.ClientMBean -p:10001 -t:15 -n:test1`
