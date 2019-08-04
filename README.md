@@ -1,5 +1,5 @@
 # Managing Java applications running in Docker containers using JMX
-This project shows an example of using  **Java Management Extensions (JMX) framework** to manage Java applications running in Docker containers.
+This project shows an example of using  [Java Management Extensions (JMX) framework](https://www.oracle.com/technetwork/java/javase/tech/javamanagement-140525.html) to manage Java applications running in Docker containers.
 
 ## Application ServerJMX
 The Java application running in the container prints the values of its attributes **threadCount** and **systemName** in a loop of 3s interval.
