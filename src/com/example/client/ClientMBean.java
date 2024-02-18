@@ -16,61 +16,30 @@ import javax.management.remote.JMXServiceURL;
 import com.example.server.ServerJMXMBean;
 
 public class ClientMBean {
-
-    private static final String HOST = "localhost";
-    private static final String SEPARATOR = ":"; 
+    private static final int PORT = 10000;
 
     public static void main(String[] args) throws Exception {
-        if (args.length == 0) {
-            System.out.println(String.format("Some args must be specified. Example: java ClientMbean -p%s10000 -t%s3 -n%stest", SEPARATOR));
-            System.exit(0);
+        final String host = System.getenv("host");
+        if (host == null) {
+            System.out.println("Invalid hostname, please pass it as parameter: -e host=<hostname>");
+            return;
         }
 
-        int port = 0;
-        boolean hasPort = false;
-        int threadCount = -1;
-        boolean hasThreadCount = false;
-        String systemName = null;
-        boolean stop = false;
+        final String systemName = System.getenv("name");
+        final String threadCount = System.getenv("threads");
+        final String stop = System.getenv("stop");
 
-        for (String arg : args) {
-            if (arg.contains("-p")) {
-                try {
-                    port = Integer.parseInt(arg.substring(arg.indexOf(SEPARATOR)+1));
-                    hasPort = true;
-                }
-                catch (Exception e) {
-                    System.err.println("Error value " + arg);
-                    System.exit(1);
-                }
-            }
-            else if (arg.contains("-t")) {
-                try {
-                    threadCount = Integer.parseInt(arg.substring(arg.indexOf(SEPARATOR)+1));
-                    hasThreadCount = true;
-                }
-                catch (Exception e) {
-                    System.err.println("Error value " + arg);
-                    System.exit(1);
-                }
-            }
-            else if (arg.contains("-n")) {
-                systemName = arg.substring(arg.indexOf(SEPARATOR)+1);
-            }
-            else if (arg.contains("stop")) {
-                stop = true;
-            }
+        JMXConnector jmxc;
+        try {
+            System.out.println("\nCreate an RMI connector client and connect it to the RMI connector server");
+            final String url = "service:jmx:rmi:///jndi/rmi://" + host + ":" + PORT + "/jmxrmi";
+            JMXServiceURL serviceUrl = new JMXServiceURL(url);
+            jmxc = JMXConnectorFactory.connect(serviceUrl, null);
+            System.out.println(url);
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            return;
         }
-
-        if (!hasPort) {
-            System.out.println("A port, example: -p:10000, must be definied.");
-        }
-
-        System.out.println("\nCreate an RMI connector client and connect it to the RMI connector server");
-        String url = "service:jmx:rmi:///jndi/rmi://" + HOST + ":" + port + "/jmxrmi";
-        JMXServiceURL serviceUrl = new JMXServiceURL(url);
-        JMXConnector jmxc = JMXConnectorFactory.connect(serviceUrl, null);
-        System.out.println(url);
 
         // Create listener
         ClientListener listener = new ClientListener();
@@ -86,12 +55,20 @@ public class ClientMBean {
         // Add notification listener on ServerJMX MBean
         mbsc.addNotificationListener(mbeanName, listener, null, null);
 
-        if (hasThreadCount) {
-            mbeanProxy.setThreadCount(threadCount);
+        if (threadCount != null) {
+            try {
+                int val = Integer.parseInt(threadCount);
+                if (val < 0) {
+                    throw new RuntimeException("Cannot be negative");
+                }
+                mbeanProxy.setThreadCount(val);
 
-            // Sleep for 2 seconds to have time to receive the notification
-            System.out.println("\nWaiting for notification...");
-            sleep(2000);
+                // Sleep for 2 seconds to have time to receive the notification
+                System.out.println("\nWaiting for notification...");
+                sleep(2000);
+            } catch (Exception e) {
+                System.out.println("Invalid number of threads " + threadCount);
+            }
         }
 
         if (systemName != null) {
@@ -102,7 +79,7 @@ public class ClientMBean {
             System.out.println("SystemName new = " + mbeanProxy.getSystemName());
         }
 
-        if (stop) {
+        if (Boolean.parseBoolean(stop)) {
             mbeanProxy.stop();
         }
 

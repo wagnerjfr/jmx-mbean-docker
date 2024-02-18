@@ -1,0 +1,11 @@
+FROM openjdk:8-jdk-alpine
+
+LABEL maintainer="wagnerjfr@yahoo.com.br"
+
+COPY . /home/app/
+
+WORKDIR /home/app/src/
+
+RUN javac com/example/client/*.java
+
+CMD java com.example.client.ClientMBean

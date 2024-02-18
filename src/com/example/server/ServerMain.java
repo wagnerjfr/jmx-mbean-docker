@@ -25,10 +25,10 @@ public class ServerMain {
         ObjectName name = new ObjectName("com.example:type=ServerJMX");
         mbs.registerMBean(mBean, name);
 
-        do{
+        do {
             Thread.sleep(3000);
             System.out.println("Thread Count = " + mBean.getThreadCount() + " :: System Name = " + mBean.getSystemName());
-        }while(mBean.isRunning());
+        } while(mBean.isRunning());
 
         System.out.println("Server JMX stopped");
     }
