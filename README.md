@@ -6,5 +6,5 @@ Docker, on the other hand, is a popular containerization platform that enables d
 In this project, we explore how to leverage the JMX framework to effectively manage and monitor Java applications running within Docker containers.
 
 ## Full Article
-### [Managing Java Applications Running in Docker Containers Using JMX]()
+### [Managing Java Applications Running in Docker Containers Using JMX](https://medium.com/itnext/managing-java-applications-running-in-docker-containers-using-jmx-ea0d9f08cb03)
 _Efficient Monitoring and Management Solutions for Container Environments_
